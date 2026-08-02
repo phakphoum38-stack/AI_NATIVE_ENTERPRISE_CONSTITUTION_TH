@@ -152,8 +152,8 @@ class _PolicyBar extends StatelessWidget {
             label: Text(
               decision.allowed
                   ? decision.requiresApproval
-                      ? 'Allowed with approval'
-                      : 'Allowed'
+                        ? 'Allowed with approval'
+                        : 'Allowed'
                   : 'Blocked',
             ),
           ),
@@ -210,9 +210,7 @@ class _Composer extends StatelessWidget {
               )
             else
               FilledButton.icon(
-                onPressed: canSend
-                    ? () => onSend(requiresApproval)
-                    : null,
+                onPressed: canSend ? () => onSend(requiresApproval) : null,
                 icon: Icon(
                   requiresApproval ? Icons.approval_outlined : Icons.send,
                 ),

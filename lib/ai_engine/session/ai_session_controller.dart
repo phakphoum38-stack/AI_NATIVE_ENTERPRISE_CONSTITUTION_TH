@@ -125,9 +125,9 @@ class AiSessionController extends ChangeNotifier {
   }
 
   AiExecutionContext get _executionContext => AiExecutionContext(
-        privacyLevel: _privacyLevel,
-        riskLevel: _riskLevel,
-        containsSensitiveData: _containsSensitiveData,
-        requiresTools: _requiresTools,
-      );
+    privacyLevel: _privacyLevel,
+    riskLevel: _riskLevel,
+    containsSensitiveData: _containsSensitiveData,
+    requiresTools: _requiresTools,
+  );
 }

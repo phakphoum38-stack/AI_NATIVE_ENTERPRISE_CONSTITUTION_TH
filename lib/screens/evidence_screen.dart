@@ -14,9 +14,7 @@ class EvidenceScreen extends StatelessWidget {
       builder: (context, _) {
         final records = evidenceLog.records;
         if (records.isEmpty) {
-          return const Center(
-            child: Text('ยังไม่มี Evidence Record'),
-          );
+          return const Center(child: Text('ยังไม่มี Evidence Record'));
         }
 
         return Column(
@@ -42,9 +40,7 @@ class EvidenceScreen extends StatelessWidget {
                   final success = record.result == 'success';
                   return Card(
                     child: ExpansionTile(
-                      leading: Icon(
-                        success ? Icons.check_circle : Icons.error,
-                      ),
+                      leading: Icon(success ? Icons.check_circle : Icons.error),
                       title: Text(record.action),
                       subtitle: Text(
                         '${record.providerId} · ${record.model} · ${record.timestamp.toLocal()}',
