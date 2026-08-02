@@ -41,10 +41,7 @@ class SettingsScreen extends StatelessWidget {
                   value: AppLanguage.system,
                   child: Text('System'),
                 ),
-                DropdownMenuItem(
-                  value: AppLanguage.thai,
-                  child: Text('ไทย'),
-                ),
+                DropdownMenuItem(value: AppLanguage.thai, child: Text('ไทย')),
                 DropdownMenuItem(
                   value: AppLanguage.english,
                   child: Text('English'),
