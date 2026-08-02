@@ -10,21 +10,27 @@ class AiNativeEnterpriseApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'AI Native Enterprise Constitution',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
-        useMaterial3: true,
-      ),
-      darkTheme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.indigo,
-          brightness: Brightness.dark,
+    return ListenableBuilder(
+      listenable: dependencies.settingsController,
+      builder: (context, _) => MaterialApp(
+        title: 'AI Native Enterprise Constitution',
+        debugShowCheckedModeBanner: false,
+        locale: dependencies.settingsController.locale,
+        supportedLocales: const [Locale('en'), Locale('th')],
+        themeMode: dependencies.settingsController.themeMode,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
+          useMaterial3: true,
         ),
-        useMaterial3: true,
+        darkTheme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.indigo,
+            brightness: Brightness.dark,
+          ),
+          useMaterial3: true,
+        ),
+        home: AppShell(dependencies: dependencies),
       ),
-      home: AppShell(dependencies: dependencies),
     );
   }
 }
