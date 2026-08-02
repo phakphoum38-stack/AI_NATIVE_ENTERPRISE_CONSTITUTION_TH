@@ -91,7 +91,7 @@ class HomeScreen extends StatelessWidget {
                           FilledButton.icon(
                             onPressed: provider == null
                                 ? null
-                                : () => _selectProvider(context, provider.id),
+                                : () => _refreshHealth(context),
                             icon: const Icon(Icons.health_and_safety_outlined),
                             label: const Text('ตรวจสุขภาพ'),
                           ),
@@ -124,6 +124,17 @@ class HomeScreen extends StatelessWidget {
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('เชื่อมต่อ AI Provider ไม่สำเร็จ')),
+      );
+    }
+  }
+
+  Future<void> _refreshHealth(BuildContext context) async {
+    try {
+      await controller.refreshHealth();
+    } catch (_) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('AI Provider ไม่พร้อมใช้งาน')),
       );
     }
   }
@@ -202,8 +213,10 @@ class _PrinciplesCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Constitution Principles',
-                style: Theme.of(context).textTheme.titleLarge),
+            Text(
+              'Constitution Principles',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
             const SizedBox(height: 12),
             for (final principle in principles)
               ListTile(
