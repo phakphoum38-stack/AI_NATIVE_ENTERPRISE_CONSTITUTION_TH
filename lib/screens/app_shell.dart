@@ -4,6 +4,7 @@ import '../app/app_dependencies.dart';
 import 'assistant_screen.dart';
 import 'evidence_screen.dart';
 import 'home_screen.dart';
+import 'settings_screen.dart';
 
 class AppShell extends StatefulWidget {
   const AppShell({required this.dependencies, super.key});
@@ -36,6 +37,11 @@ class _AppShellState extends State<AppShell> {
         selectedIcon: Icon(Icons.fact_check),
         label: Text('Evidence'),
       ),
+      NavigationRailDestination(
+        icon: Icon(Icons.settings_outlined),
+        selectedIcon: Icon(Icons.settings),
+        label: Text('Settings'),
+      ),
     ];
 
     final body = IndexedStack(
@@ -44,6 +50,7 @@ class _AppShellState extends State<AppShell> {
         HomeScreen(controller: widget.dependencies.aiProviderController),
         AssistantScreen(controller: widget.dependencies.aiSessionController),
         EvidenceScreen(evidenceLog: widget.dependencies.evidenceLog),
+        SettingsScreen(controller: widget.dependencies.settingsController),
       ],
     );
 
@@ -88,6 +95,11 @@ class _AppShellState extends State<AppShell> {
                   icon: Icon(Icons.fact_check_outlined),
                   selectedIcon: Icon(Icons.fact_check),
                   label: 'Evidence',
+                ),
+                NavigationDestination(
+                  icon: Icon(Icons.settings_outlined),
+                  selectedIcon: Icon(Icons.settings),
+                  label: 'Settings',
                 ),
               ],
             ),
