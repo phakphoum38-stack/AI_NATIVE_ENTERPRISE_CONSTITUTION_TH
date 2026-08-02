@@ -1,3 +1,5 @@
+import '../models/ai_exchange.dart';
+
 enum AiProviderConnectionStatus {
   disconnected,
   connecting,
@@ -35,4 +37,8 @@ abstract interface class AiProvider {
   Future<void> disconnect();
   Future<bool> checkHealth();
   Future<List<String>> listModels();
+  Future<AiResponse> sendMessage(AiRequest request);
+  Stream<String> streamMessage(AiRequest request);
+  Future<void> cancelRequest(String requestId);
+  int estimateTokens(String text);
 }
