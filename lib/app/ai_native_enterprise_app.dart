@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../screens/home_screen.dart';
+import '../screens/app_shell.dart';
 import 'app_dependencies.dart';
 
 class AiNativeEnterpriseApp extends StatelessWidget {
@@ -17,7 +17,14 @@ class AiNativeEnterpriseApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
         useMaterial3: true,
       ),
-      home: HomeScreen(controller: dependencies.aiProviderController),
+      darkTheme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.indigo,
+          brightness: Brightness.dark,
+        ),
+        useMaterial3: true,
+      ),
+      home: AppShell(dependencies: dependencies),
     );
   }
 }
