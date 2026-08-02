@@ -2,9 +2,7 @@ import 'ai_provider.dart';
 
 class AiProviderRegistry {
   AiProviderRegistry(Iterable<AiProvider> providers)
-      : _providers = {
-          for (final provider in providers) provider.id: provider,
-        };
+    : _providers = {for (final provider in providers) provider.id: provider};
 
   final Map<String, AiProvider> _providers;
 

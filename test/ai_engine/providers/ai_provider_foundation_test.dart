@@ -155,15 +155,16 @@ class _FakeProvider implements AiProvider {
 
   @override
   Future<AiResponse> sendMessage(AiRequest request) async => AiResponse(
-        requestId: request.id,
-        text: request.prompt,
-        providerId: id,
-        model: model,
-        usage: const AiUsage(inputTokens: 1, outputTokens: 1),
-      );
+    requestId: request.id,
+    text: request.prompt,
+    providerId: id,
+    model: model,
+    usage: const AiUsage(inputTokens: 1, outputTokens: 1),
+  );
 
   @override
-  Stream<String> streamMessage(AiRequest request) => Stream.value(request.prompt);
+  Stream<String> streamMessage(AiRequest request) =>
+      Stream.value(request.prompt);
 
   @override
   Future<void> cancelRequest(String requestId) async {}

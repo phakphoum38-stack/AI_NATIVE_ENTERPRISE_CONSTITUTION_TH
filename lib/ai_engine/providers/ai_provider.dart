@@ -1,11 +1,6 @@
 import '../models/ai_exchange.dart';
 
-enum AiProviderConnectionStatus {
-  disconnected,
-  connecting,
-  connected,
-  error,
-}
+enum AiProviderConnectionStatus { disconnected, connecting, connected, error }
 
 class AiProviderCapabilities {
   const AiProviderCapabilities({

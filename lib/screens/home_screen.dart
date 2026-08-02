@@ -63,7 +63,8 @@ class HomeScreen extends StatelessWidget {
                               child: Text(item.displayName),
                             ),
                         ],
-                        onChanged: controller.status ==
+                        onChanged:
+                            controller.status ==
                                 AiProviderConnectionStatus.connecting
                             ? null
                             : (value) {

@@ -30,18 +30,10 @@ class AiPolicyDecision {
   });
 
   const AiPolicyDecision.allow({bool requiresApproval = false})
-      : this._(
-          allowed: true,
-          requiresApproval: requiresApproval,
-          reason: null,
-        );
+    : this._(allowed: true, requiresApproval: requiresApproval, reason: null);
 
   const AiPolicyDecision.deny(String reason)
-      : this._(
-          allowed: false,
-          requiresApproval: false,
-          reason: reason,
-        );
+    : this._(allowed: false, requiresApproval: false, reason: reason);
 
   final bool allowed;
   final bool requiresApproval;
@@ -72,7 +64,8 @@ class AiExecutionPolicy {
       );
     }
 
-    final approval = context.riskLevel == AiRiskLevel.high ||
+    final approval =
+        context.riskLevel == AiRiskLevel.high ||
         context.requiresTools ||
         context.privacyLevel == AiPrivacyLevel.externalCloud;
 

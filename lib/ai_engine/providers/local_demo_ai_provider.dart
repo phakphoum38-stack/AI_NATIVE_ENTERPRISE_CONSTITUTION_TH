@@ -18,11 +18,11 @@ class LocalDemoAiProvider implements AiProvider {
 
   @override
   AiProviderCapabilities get capabilities => const AiProviderCapabilities(
-        text: true,
-        streaming: true,
-        structuredOutput: true,
-        localProcessing: true,
-      );
+    text: true,
+    streaming: true,
+    structuredOutput: true,
+    localProcessing: true,
+  );
 
   @override
   Future<void> connect() async {

@@ -9,8 +9,7 @@ class AiProviderController extends ChangeNotifier {
   final AiProviderRegistry registry;
 
   AiProvider? _activeProvider;
-  AiProviderConnectionStatus _status =
-      AiProviderConnectionStatus.disconnected;
+  AiProviderConnectionStatus _status = AiProviderConnectionStatus.disconnected;
   String? _errorMessage;
 
   AiProvider? get activeProvider => _activeProvider;
