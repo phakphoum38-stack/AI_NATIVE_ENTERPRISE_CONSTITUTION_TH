@@ -5,6 +5,7 @@ import '../ai_engine/providers/local_demo_ai_provider.dart';
 import '../ai_engine/session/ai_session_controller.dart';
 import '../core/evidence/evidence_log.dart';
 import '../core/policy/ai_policy.dart';
+import 'app_settings_controller.dart';
 
 class AppDependencies {
   AppDependencies._({
@@ -12,12 +13,14 @@ class AppDependencies {
     required this.aiOrchestrator,
     required this.aiSessionController,
     required this.evidenceLog,
+    required this.settingsController,
   });
 
   final AiProviderController aiProviderController;
   final AiOrchestrator aiOrchestrator;
   final AiSessionController aiSessionController;
   final AiEvidenceLog evidenceLog;
+  final AppSettingsController settingsController;
 
   factory AppDependencies.create() {
     final registry = AiProviderRegistry(<LocalDemoAiProvider>[
@@ -37,6 +40,7 @@ class AppDependencies {
       aiOrchestrator: orchestrator,
       aiSessionController: sessionController,
       evidenceLog: evidenceLog,
+      settingsController: AppSettingsController(),
     );
   }
 }
