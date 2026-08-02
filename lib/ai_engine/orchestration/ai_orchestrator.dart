@@ -45,8 +45,8 @@ class AiOrchestrator {
           details: <String, Object?>{
             'privacyLevel': context.privacyLevel.name,
             'riskLevel': context.riskLevel.name,
-            'promptTokens': response.usage.promptTokens,
-            'completionTokens': response.usage.completionTokens,
+            'inputTokens': response.usage.inputTokens,
+            'outputTokens': response.usage.outputTokens,
           },
         ),
       );
