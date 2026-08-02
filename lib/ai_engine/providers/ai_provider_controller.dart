@@ -36,14 +36,32 @@ class AiProviderController extends ChangeNotifier {
     try {
       await previous?.disconnect();
       await next.connect();
-      final healthy = await next.checkHealth();
-      if (!healthy) {
-        throw StateError('${next.displayName} health check failed.');
-      }
+      await _requireHealthy(next);
       _activeProvider = next;
       _status = AiProviderConnectionStatus.connected;
     } catch (error) {
-      _activeProvider = previous;
+      await _restorePrevious(previous);
+      _errorMessage = error.toString();
+      rethrow;
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  Future<void> refreshHealth() async {
+    final provider = _activeProvider;
+    if (provider == null) {
+      throw StateError('No active AI provider.');
+    }
+
+    _status = AiProviderConnectionStatus.connecting;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      await _requireHealthy(provider);
+      _status = AiProviderConnectionStatus.connected;
+    } catch (error) {
       _status = AiProviderConnectionStatus.error;
       _errorMessage = error.toString();
       rethrow;
@@ -58,5 +76,28 @@ class AiProviderController extends ChangeNotifier {
     _status = AiProviderConnectionStatus.disconnected;
     _errorMessage = null;
     notifyListeners();
+  }
+
+  Future<void> _requireHealthy(AiProvider provider) async {
+    final healthy = await provider.checkHealth();
+    if (!healthy) {
+      throw StateError('${provider.displayName} health check failed.');
+    }
+  }
+
+  Future<void> _restorePrevious(AiProvider? previous) async {
+    _activeProvider = previous;
+    if (previous == null) {
+      _status = AiProviderConnectionStatus.error;
+      return;
+    }
+
+    try {
+      await previous.connect();
+      await _requireHealthy(previous);
+      _status = AiProviderConnectionStatus.connected;
+    } catch (_) {
+      _status = AiProviderConnectionStatus.error;
+    }
   }
 }
