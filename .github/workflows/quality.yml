@@ -1,7 +1,6 @@
 name: Flutter Quality
 
 on:
-  pull_request:
   push:
     branches:
       - main
@@ -10,6 +9,7 @@ on:
 
 permissions:
   contents: write
+  actions: read
 
 concurrency:
   group: flutter-quality-${{ github.ref }}
@@ -17,14 +17,15 @@ concurrency:
 
 jobs:
   analyze-and-test:
+    if: github.repository_owner == 'phakphoum38-stack'
     runs-on: ubuntu-24.04
     timeout-minutes: 25
 
     steps:
-      - name: Checkout
+      - name: Checkout owner branch
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
+          ref: ${{ github.ref_name }}
 
       - name: Download and set up Flutter SDK
         uses: subosito/flutter-action@v2
@@ -46,7 +47,7 @@ jobs:
         run: dart format .
 
       - name: Commit formatting changes
-        if: github.event_name == 'push' && github.ref_name != 'main'
+        if: github.ref_name != 'main'
         run: |
           if git diff --quiet; then
             echo "No formatting changes"
@@ -56,7 +57,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -- '*.dart'
           git commit -m "style: apply dart format"
-          git push
+          git push origin HEAD:${{ github.ref_name }}
 
       - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed .
