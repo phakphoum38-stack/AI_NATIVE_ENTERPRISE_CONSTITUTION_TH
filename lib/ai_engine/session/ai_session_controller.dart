@@ -33,6 +33,7 @@ class AiSessionController extends ChangeNotifier {
   bool _containsSensitiveData = false;
   bool _requiresTools = false;
   bool _isSending = false;
+  String? _activeRequestId;
   String? _errorMessage;
 
   List<AiConversationMessage> get messages => List.unmodifiable(_messages);
@@ -72,6 +73,7 @@ class AiSessionController extends ChangeNotifier {
     if (text.isEmpty || _isSending) return;
 
     final requestId = 'req_${DateTime.now().microsecondsSinceEpoch}';
+    _activeRequestId = requestId;
     _messages.add(
       AiConversationMessage(
         id: '${requestId}_user',
@@ -104,12 +106,17 @@ class AiSessionController extends ChangeNotifier {
       _errorMessage = error.toString();
       rethrow;
     } finally {
+      _activeRequestId = null;
       _isSending = false;
       notifyListeners();
     }
   }
 
-  Future<void> cancel() => orchestrator.cancel();
+  Future<void> cancel() async {
+    final requestId = _activeRequestId;
+    if (requestId == null) return;
+    await orchestrator.cancel(requestId);
+  }
 
   void clearConversation() {
     _messages.clear();
