@@ -50,14 +50,8 @@ class SettingsScreen extends StatelessWidget {
                   border: OutlineInputBorder(),
                 ),
                 items: const [
-                  DropdownMenuItem(
-                    value: Locale('th'),
-                    child: Text('ไทย'),
-                  ),
-                  DropdownMenuItem(
-                    value: Locale('en'),
-                    child: Text('English'),
-                  ),
+                  DropdownMenuItem(value: Locale('th'), child: Text('ไทย')),
+                  DropdownMenuItem(value: Locale('en'), child: Text('English')),
                 ],
                 onChanged: (value) {
                   if (value != null) controller.setLocale(value);
