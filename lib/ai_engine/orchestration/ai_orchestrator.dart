@@ -67,5 +67,11 @@ class AiOrchestrator {
     }
   }
 
-  Future<void> cancel() => providerController.cancelRequest();
+  Future<void> cancel(String requestId) async {
+    final provider = providerController.activeProvider;
+    if (provider == null) {
+      throw StateError('No active AI provider is connected.');
+    }
+    await provider.cancelRequest(requestId);
+  }
 }
