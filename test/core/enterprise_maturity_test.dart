@@ -12,10 +12,7 @@ void main() {
     expect(assessment.level, EnterpriseMaturityLevel.prototype);
     expect(assessment.isEnterpriseReady, isFalse);
     expect(assessment.metCriteria, contains('Runnable feature'));
-    expect(
-      assessment.missingCriteria,
-      contains('Architecture documentation'),
-    );
+    expect(assessment.missingCriteria, contains('Architecture documentation'));
   });
 
   test('reaches structured when architecture tests and CI are present', () {

@@ -1,8 +1,4 @@
-enum EnterpriseMaturityLevel {
-  prototype,
-  structured,
-  enterprise,
-}
+enum EnterpriseMaturityLevel { prototype, structured, enterprise }
 
 class EnterpriseCapabilities {
   const EnterpriseCapabilities({
