@@ -43,17 +43,19 @@ jobs:
 
       - name: Lint Markdown
         if: steps.markdown.outputs.found == 'true'
-        run: npx --yes markdownlint-cli2 "**/*.md" "#node_modules"
+        run: npx --yes markdownlint-cli2@0.23.2 "**/*.md" "#node_modules"
 
       - name: Check Markdown links
         if: steps.markdown.outputs.found == 'true'
         uses: lycheeverse/lychee-action@v2
         with:
+          lycheeVersion: v0.24.2
           args: >-
             --no-progress
             --accept 200,206,429
             "./**/*.md"
           fail: true
+          failIfEmpty: false
 
       - name: No Markdown files yet
         if: steps.markdown.outputs.found != 'true'
