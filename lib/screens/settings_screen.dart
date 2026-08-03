@@ -31,7 +31,7 @@ class SettingsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             DropdownButtonFormField<AppLanguage>(
-              value: controller.language,
+              initialValue: controller.language,
               decoration: const InputDecoration(
                 labelText: 'Language',
                 border: OutlineInputBorder(),
