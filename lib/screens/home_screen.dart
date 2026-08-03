@@ -51,7 +51,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       DropdownButtonFormField<String>(
-                        value: provider?.id,
+                        initialValue: provider?.id,
                         decoration: const InputDecoration(
                           labelText: 'Provider',
                           border: OutlineInputBorder(),
