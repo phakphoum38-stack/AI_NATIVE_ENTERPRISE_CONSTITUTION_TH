@@ -44,6 +44,13 @@ class AppSettingsController extends ChangeNotifier {
   }
 
   void reset() {
+    final isAlreadyDefault =
+        _themeMode == ThemeMode.system &&
+        _language == AppLanguage.system &&
+        _requireApprovalForHighRisk &&
+        _retainEvidence;
+    if (isAlreadyDefault) return;
+
     _themeMode = ThemeMode.system;
     _language = AppLanguage.system;
     _requireApprovalForHighRisk = true;
