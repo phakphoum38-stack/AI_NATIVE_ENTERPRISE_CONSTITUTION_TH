@@ -1,19 +1,29 @@
 # AI Workspaces Model
 
-GitHub-like AI workspace platform with repository, branch, commit, pull request, workflow, review, AI chat, and audit models.
+Governance-first GitHub-like AI development workspace. It is a standalone platform and does not contain Shift Calendar code.
+
+## Implemented
+
+- Persistent SQLite repositories, branches, commits, pull requests, reviews, workflow runs and audit events
+- Bearer-token API protection
+- PR governance gates: approval score, required approvals and successful workflow on the head branch
+- AI provider registry with a safe mock provider and extension point for external providers
+- GitHub-like browser dashboard
+- Docker, health check, OpenAPI and automated tests
 
 ## Run
 
 ```bash
-cd backend
-python -m uvicorn app.main:app --reload
+cp .env.example .env
+docker compose up --build
 ```
 
-Open `http://127.0.0.1:8000`.
+Open `http://localhost:8000`. Default development token: `dev-token-change-me`.
 
 ## Test
 
 ```bash
 cd backend
+python -m pip install -r requirements.txt
 pytest -q
 ```
