@@ -1,4 +1,4 @@
-import 'package:ai_native_enterprise_constitution_th/app/app_settings.dart';
+import 'package:ai_native_enterprise_constitution/app/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
