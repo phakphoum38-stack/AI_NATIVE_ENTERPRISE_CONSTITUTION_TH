@@ -1,0 +1,4 @@
+async function load(){const r=await fetch('/api/repositories');const xs=await r.json();document.getElementById('repos').innerHTML=xs.map(x=>`<div class="repo"><b>${x.name}</b><br>${x.description||''}</div>`).join('')||'ยังไม่มี Repository'}
+async function createRepo(){const name=document.getElementById('name').value.trim();if(!name)return;await fetch('/api/repositories',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name})});document.getElementById('name').value='';load()}
+async function askAI(){const prompt=document.getElementById('prompt').value;const r=await fetch('/api/ai/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt,provider:'mock'})});const x=await r.json();document.getElementById('answer').textContent=x.answer+'\n\nActions: '+x.actions.join(' → ')}
+load()
