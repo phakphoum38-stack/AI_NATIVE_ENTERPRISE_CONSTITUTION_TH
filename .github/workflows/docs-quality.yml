@@ -51,7 +51,6 @@ jobs:
         with:
           args: >-
             --no-progress
-            --exclude-mail
             --accept 200,206,429
             "./**/*.md"
           fail: true
