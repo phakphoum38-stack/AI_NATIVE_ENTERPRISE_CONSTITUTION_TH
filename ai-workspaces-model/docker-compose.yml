@@ -1,0 +1,5 @@
+services:
+  ai-workspaces-model:
+    build: .
+    ports:
+      - "8000:8000"
