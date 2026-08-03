@@ -1,4 +1,4 @@
-import 'package:ai_native_enterprise_constitution_th/core/maturity/enterprise_maturity.dart';
+import 'package:ai_native_enterprise_constitution/core/maturity/enterprise_maturity.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
