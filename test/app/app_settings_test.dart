@@ -1,4 +1,6 @@
+import 'package:ai_native_enterprise_constitution/app/app_dependencies.dart';
 import 'package:ai_native_enterprise_constitution/app/app_settings.dart';
+import 'package:ai_native_enterprise_constitution/ai_engine/providers/ai_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -46,4 +48,25 @@ void main() {
 
     expect(notifications, 0);
   });
+
+  test(
+    'dependencies connect the default provider during initialization',
+    _connectDefaultProvider,
+  );
+}
+
+Future<void> _connectDefaultProvider() async {
+  final dependencies = AppDependencies.create();
+  addTearDown(dependencies.aiProviderController.dispose);
+  addTearDown(dependencies.aiSessionController.dispose);
+  addTearDown(dependencies.evidenceLog.dispose);
+  addTearDown(dependencies.settingsController.dispose);
+
+  await dependencies.initialize();
+
+  expect(
+    dependencies.aiProviderController.status,
+    AiProviderConnectionStatus.connected,
+  );
+  expect(dependencies.aiProviderController.activeProvider, isNotNull);
 }

@@ -22,6 +22,17 @@ class AppDependencies {
   final AiEvidenceLog evidenceLog;
   final AppSettingsController settingsController;
 
+  Future<void> initialize() async {
+    if (aiProviderController.activeProvider != null) return;
+
+    final providers = aiProviderController.registry.providers;
+    if (providers.isEmpty) {
+      throw StateError('No AI providers are registered.');
+    }
+
+    await aiProviderController.selectProvider(providers.first.id);
+  }
+
   factory AppDependencies.create() {
     final registry = AiProviderRegistry(<LocalDemoAiProvider>[
       LocalDemoAiProvider(),

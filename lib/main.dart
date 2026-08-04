@@ -6,5 +6,6 @@ import 'app/app_dependencies.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final dependencies = AppDependencies.create();
+  await dependencies.initialize();
   runApp(AiNativeEnterpriseApp(dependencies: dependencies));
 }

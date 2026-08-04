@@ -14,6 +14,7 @@ Foundation ปัจจุบันประกอบด้วย:
 - Provider registry และ lifecycle controller
 - Provider health check, recovery และ cancellation
 - Local Demo Provider สำหรับการพัฒนาแบบไม่ใช้ API key
+- เชื่อมต่อ Local Demo Provider อัตโนมัติก่อนแสดงแอป
 - Privacy/risk execution policy
 - Human approval gate
 - Policy-aware AI orchestrator
@@ -100,6 +101,23 @@ flutter pub get
 dart format --output=none --set-exit-if-changed .
 flutter analyze
 flutter test
+```
+
+## Run and build
+
+แอปเชื่อมต่อ Local Demo Provider โดยอัตโนมัติเมื่อเริ่มต้น จึงสามารถเปิดหน้า
+Assistant และส่งข้อความได้ทันที
+
+สร้าง Linux desktop bundle ด้วย:
+
+```bash
+flutter build linux
+```
+
+ไฟล์ executable จะอยู่ที่:
+
+```text
+build/linux/x64/release/bundle/ai_native_enterprise_constitution
 ```
 
 ## Provider boundary
