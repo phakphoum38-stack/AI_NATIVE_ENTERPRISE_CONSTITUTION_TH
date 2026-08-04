@@ -41,7 +41,13 @@ class AiPolicyDecision {
 }
 
 class AiExecutionPolicy {
-  const AiExecutionPolicy();
+  const AiExecutionPolicy({
+    this.requireApprovalForHighRisk = true,
+    this.highRiskApprovalRequired,
+  });
+
+  final bool requireApprovalForHighRisk;
+  final bool Function()? highRiskApprovalRequired;
 
   AiPolicyDecision evaluate(AiExecutionContext context) {
     if (context.privacyLevel == AiPrivacyLevel.restricted) {
@@ -64,8 +70,10 @@ class AiExecutionPolicy {
       );
     }
 
+    final highRiskApprovalRequired =
+        this.highRiskApprovalRequired?.call() ?? requireApprovalForHighRisk;
     final approval =
-        context.riskLevel == AiRiskLevel.high ||
+        (highRiskApprovalRequired && context.riskLevel == AiRiskLevel.high) ||
         context.requiresTools ||
         context.privacyLevel == AiPrivacyLevel.externalCloud;
 

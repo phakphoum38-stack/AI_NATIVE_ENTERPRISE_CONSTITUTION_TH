@@ -28,13 +28,17 @@ class AppDependencies {
     ]);
     final providerController = AiProviderController(registry);
     final evidenceLog = AiEvidenceLog();
+    final settingsController = AppSettingsController();
     final orchestrator = AiOrchestrator(
       providerController: providerController,
-      policy: const AiExecutionPolicy(),
+      policy: AiExecutionPolicy(
+        highRiskApprovalRequired: () =>
+            settingsController.requireApprovalForHighRisk,
+      ),
       evidenceLog: evidenceLog,
+      shouldRetainEvidence: () => settingsController.retainEvidence,
     );
     final sessionController = AiSessionController(orchestrator: orchestrator);
-    final settingsController = AppSettingsController();
 
     return AppDependencies._(
       aiProviderController: providerController,

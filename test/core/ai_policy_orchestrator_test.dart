@@ -33,6 +33,20 @@ void main() {
       expect(decision.allowed, isTrue);
       expect(decision.requiresApproval, isTrue);
     });
+
+    test('can disable approval for high-risk requests', () {
+      const policy = AiExecutionPolicy(requireApprovalForHighRisk: false);
+
+      final decision = policy.evaluate(
+        const AiExecutionContext(
+          privacyLevel: AiPrivacyLevel.localOnly,
+          riskLevel: AiRiskLevel.high,
+        ),
+      );
+
+      expect(decision.allowed, isTrue);
+      expect(decision.requiresApproval, isFalse);
+    });
   });
 
   group('AiOrchestrator', () {
@@ -80,6 +94,29 @@ void main() {
           ),
         ),
         throwsStateError,
+      );
+
+      expect(evidence.records, isEmpty);
+    });
+
+    test('does not retain evidence when retention is disabled', () async {
+      final provider = LocalDemoAiProvider();
+      final controller = AiProviderController(AiProviderRegistry([provider]));
+      final evidence = AiEvidenceLog();
+      final orchestrator = AiOrchestrator(
+        providerController: controller,
+        policy: const AiExecutionPolicy(),
+        evidenceLog: evidence,
+        shouldRetainEvidence: () => false,
+      );
+      await controller.selectProvider(provider.id);
+
+      await orchestrator.send(
+        request: const AiRequest(id: 'request-3', prompt: 'hello'),
+        context: const AiExecutionContext(
+          privacyLevel: AiPrivacyLevel.localOnly,
+          riskLevel: AiRiskLevel.low,
+        ),
       );
 
       expect(evidence.records, isEmpty);

@@ -8,11 +8,13 @@ class AiOrchestrator {
     required this.providerController,
     required this.policy,
     required this.evidenceLog,
+    this.shouldRetainEvidence,
   });
 
   final AiProviderController providerController;
   final AiExecutionPolicy policy;
   final AiEvidenceLog evidenceLog;
+  final bool Function()? shouldRetainEvidence;
 
   Future<AiResponse> send({
     required AiRequest request,
@@ -34,7 +36,7 @@ class AiOrchestrator {
 
     try {
       final response = await provider.sendMessage(request);
-      evidenceLog.add(
+      _recordEvidence(
         AiEvidenceRecord(
           id: request.id,
           timestamp: DateTime.now().toUtc(),
@@ -52,7 +54,7 @@ class AiOrchestrator {
       );
       return response;
     } catch (error) {
-      evidenceLog.add(
+      _recordEvidence(
         AiEvidenceRecord(
           id: request.id,
           timestamp: DateTime.now().toUtc(),
@@ -73,5 +75,11 @@ class AiOrchestrator {
       throw StateError('No active AI provider is connected.');
     }
     await provider.cancelRequest(requestId);
+  }
+
+  void _recordEvidence(AiEvidenceRecord record) {
+    if (shouldRetainEvidence?.call() ?? true) {
+      evidenceLog.add(record);
+    }
   }
 }
