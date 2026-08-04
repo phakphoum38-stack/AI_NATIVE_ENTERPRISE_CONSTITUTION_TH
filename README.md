@@ -103,20 +103,36 @@ flutter analyze
 flutter test
 ```
 
+จัดรูปแบบทุกไฟล์ Dart ด้วย:
+
+```bash
+dart run tool/format_all.dart
+```
+
+ตรวจรูปแบบโดยไม่แก้ไขไฟล์ด้วย:
+
+```bash
+dart run tool/format_all.dart --check
+```
+
 ## Run and build
 
 แอปเชื่อมต่อ Local Demo Provider โดยอัตโนมัติเมื่อเริ่มต้น จึงสามารถเปิดหน้า
 Assistant และส่งข้อความได้ทันที
 
-สร้าง Linux desktop bundle ด้วย:
+สร้าง release bundles สำหรับทุก platform ที่รองรับบน environment นี้ด้วย:
 
 ```bash
+flutter build apk --release
+flutter build web --release --no-wasm-dry-run
 flutter build linux
 ```
 
-ไฟล์ executable จะอยู่ที่:
+ผลลัพธ์จะอยู่ที่:
 
 ```text
+build/app/outputs/flutter-apk/app-release.apk
+build/web/
 build/linux/x64/release/bundle/ai_native_enterprise_constitution
 ```
 
