@@ -1,0 +1,11 @@
+services:
+  app:
+    build: .
+    ports: ["8000:8000"]
+    environment:
+      API_TOKEN: ${API_TOKEN:-dev-token-change-me}
+      DATABASE_PATH: /data/ai_workspaces.db
+    volumes: ["ai-workspaces-data:/data"]
+    restart: unless-stopped
+volumes:
+  ai-workspaces-data:
