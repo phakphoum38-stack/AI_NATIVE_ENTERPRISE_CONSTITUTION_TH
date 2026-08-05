@@ -6,8 +6,20 @@ build/
 .flutter-plugins
 .flutter-plugins-dependencies
 
+# Python generated files
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+backend/data/
+backend/*.db
+*.sqlite
+*.sqlite3
+
 # Coverage and test output
 coverage/
+htmlcov/
 
 # IDE and editor files
 .idea/

@@ -1,26 +1,94 @@
-# AI Native Enterprise Constitution TH
+# AI Workspaces Model
 
-โครงการ Flutter อ้างอิงสำหรับพัฒนาระบบ Enterprise แบบ AI-Native โดยใช้ Constitution ภาษาไทยเป็นแหล่งกติกาหลักเพียงชุดเดียว
+แพลตฟอร์ม AI-Native Enterprise สำหรับจัดการ Workspace, Repository, Branch, Commit, Pull Request, Review, Workflow, AI Provider และ Audit ภายใต้ Constitution และ Human Approval เดียวกัน
 
 ## สถานะ
 
-**Level 1 — Runnable Foundation MVP**
+**Version 1 — Governed Workspace Foundation**
 
-Foundation ปัจจุบันประกอบด้วย:
+ระบบหลักประกอบด้วย:
 
-- Personal rights-holder license
-- Provider-neutral AI request/response models
-- AI Provider abstraction และ capability model
-- Provider registry และ lifecycle controller
-- Provider health check, recovery และ cancellation
-- Local Demo Provider สำหรับการพัฒนาแบบไม่ใช้ API key
-- เชื่อมต่อ Local Demo Provider อัตโนมัติก่อนแสดงแอป
-- Privacy/risk execution policy
-- Human approval gate
-- Policy-aware AI orchestrator
-- Evidence log สำหรับผลสำเร็จและความล้มเหลว
-- Flutter Composition Root และ Provider dashboard
-- Unit tests และ GitHub Actions quality gate
+- Flutter application สำหรับ AI orchestration, provider lifecycle และ human approval
+- FastAPI backend พร้อม SQLite persistence
+- Repository, branch, commit และ pull request APIs
+- Review scorecard และ merge governance gates
+- Workflow run tracking
+- AI provider abstraction และ explainable response trace
+- Audit log
+- Web dashboard
+- Docker และ Docker Compose
+- GitHub Actions สำหรับ Flutter, Backend, Documentation และ Security
+
+## โครงสร้าง
+
+```text
+.
+├── backend/                  # FastAPI API และ tests
+├── frontend/                 # Web dashboard แบบเบา
+├── lib/                      # Flutter AI-native application
+├── test/                     # Flutter tests
+├── docs/
+│   ├── architecture/
+│   ├── constitution/
+│   └── governance/
+├── .github/workflows/
+├── Dockerfile
+├── docker-compose.yml
+├── pubspec.yaml
+└── README.md
+```
+
+## Run Flutter
+
+```bash
+flutter pub get
+flutter analyze
+flutter test
+flutter run
+```
+
+## Run Backend
+
+```bash
+cd backend
+python -m venv .venv
+python -m pip install -r requirements.txt
+PYTHONPATH=. python -m pytest -q
+PYTHONPATH=. uvicorn app.main:app --reload
+```
+
+บน PowerShell:
+
+```powershell
+cd backend
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+$env:PYTHONPATH = "."
+python -m pytest -q
+python -m uvicorn app.main:app --reload
+```
+
+## Run with Docker
+
+```bash
+docker compose up --build
+```
+
+Backend จะเปิดที่ `http://localhost:8000` และ OpenAPI อยู่ที่ `/docs`
+
+## Governance flow
+
+```text
+User Request
+→ Constitution and Policy
+→ Human Approval Gate
+→ Workspace / Repository Operation
+→ Tests and Workflow Evidence
+→ Review Scorecard
+→ Merge Gate
+→ Audit Record
+```
 
 ## หลักการสูงสุด
 
@@ -30,118 +98,10 @@ Foundation ปัจจุบันประกอบด้วย:
 - Every Change Has Evidence
 - Documentation Never Lags Behind Code
 - Quality Is Continuous
-- Provider Independent
-
-## โครงสร้าง
-
-```text
-.
-├── .github/workflows/
-│   └── quality.yml
-├── docs/
-│   ├── architecture/
-│   └── governance/
-├── lib/
-│   ├── ai_engine/
-│   │   ├── models/
-│   │   ├── orchestration/
-│   │   └── providers/
-│   ├── app/
-│   ├── core/
-│   │   ├── evidence/
-│   │   └── policy/
-│   ├── screens/
-│   └── main.dart
-├── test/
-│   ├── ai_engine/
-│   └── core/
-├── analysis_options.yaml
-├── pubspec.yaml
-├── LICENSE-PERSONAL.md
-└── README.md
-```
-
-## Runtime flow
-
-```text
-User Request
-→ AI Execution Context
-→ Privacy and Risk Policy
-→ Approval Gate
-→ Active Provider
-→ AI Response
-→ Evidence Record
-```
-
-## Development flow
-
-```text
-Read Constitution
-→ Inspect Repository
-→ Design
-→ Implement
-→ Write Tests
-→ Format
-→ Analyze
-→ Test
-→ Review Diff
-→ Pull Request
-→ Human Approval
-→ Merge
-```
-
-## Validation
-
-GitHub Actions ดาวน์โหลด Flutter SDK 3.44.8 และรัน:
-
-```bash
-flutter --version
-flutter doctor -v
-flutter pub get
-dart format --output=none --set-exit-if-changed .
-flutter analyze
-flutter test
-```
-
-จัดรูปแบบทุกไฟล์ Dart ด้วย:
-
-```bash
-dart run tool/format_all.dart
-```
-
-ตรวจรูปแบบโดยไม่แก้ไขไฟล์ด้วย:
-
-```bash
-dart run tool/format_all.dart --check
-```
-
-## Run and build
-
-แอปเชื่อมต่อ Local Demo Provider โดยอัตโนมัติเมื่อเริ่มต้น จึงสามารถเปิดหน้า
-Assistant และส่งข้อความได้ทันที
-
-สร้าง release bundles สำหรับทุก platform ที่รองรับบน environment นี้ด้วย:
-
-```bash
-flutter build apk --release
-flutter build web --release --no-wasm-dry-run
-flutter build linux
-```
-
-ผลลัพธ์จะอยู่ที่:
-
-```text
-build/app/outputs/flutter-apk/app-release.apk
-build/web/
-build/linux/x64/release/bundle/ai_native_enterprise_constitution
-```
-
-## Provider boundary
-
-Core และ UI ห้ามผูกกับ SDK ของผู้ให้บริการรายใดโดยตรง Provider จริงต้องเพิ่มผ่าน `AiProvider` adapter และต้องผ่าน Policy, Privacy, Approval และ Evidence flow เดียวกัน
+- Build for the next developer — whether human or AI
 
 ## License
 
 Copyright © 2026 Phakphum Wiriyaphap. All rights reserved.
 
-เงื่อนไขการใช้งาน การอนุญาต ข้อยกเว้น การตีความ และสิทธิ์เพิ่มเติมทั้งหมดเป็นไปตามที่เจ้าของสิทธิ์กำหนดและอนุมัติเป็นลายลักษณ์อักษรเท่านั้น โปรดดู `LICENSE-PERSONAL.md`
+ดูเงื่อนไขเพิ่มเติมใน `LICENSE-PERSONAL.md`

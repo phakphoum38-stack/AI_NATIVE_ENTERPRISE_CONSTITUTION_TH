@@ -3,12 +3,18 @@ name: AI Workspaces Model CI
 on:
   pull_request:
     paths:
-      - "ai-workspaces-model/**"
+      - "backend/**"
+      - "frontend/**"
+      - "Dockerfile"
+      - "docker-compose.yml"
       - ".github/workflows/ai-workspaces-model-ci.yml"
   push:
     branches: [main]
     paths:
-      - "ai-workspaces-model/**"
+      - "backend/**"
+      - "frontend/**"
+      - "Dockerfile"
+      - "docker-compose.yml"
       - ".github/workflows/ai-workspaces-model-ci.yml"
   workflow_dispatch:
 
@@ -20,18 +26,19 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ai-workspaces-model/backend
-    env:
-      PYTHONPATH: ${{ github.workspace }}/ai-workspaces-model/backend
+        working-directory: backend
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
           cache: pip
-          cache-dependency-path: ai-workspaces-model/backend/requirements.txt
-      - run: python -m pip install -r requirements.txt
-      - run: python -m pytest -q
+          cache-dependency-path: backend/requirements.txt
+      - run: pip install -r requirements.txt
+      - name: Run backend tests
+        env:
+          PYTHONPATH: .
+        run: python -m pytest -q
 
   docker-build:
     runs-on: ubuntu-latest
@@ -40,6 +47,6 @@ jobs:
       - uses: docker/setup-buildx-action@v3
       - uses: docker/build-push-action@v6
         with:
-          context: ai-workspaces-model
+          context: .
           push: false
           tags: ai-workspaces-model:ci
